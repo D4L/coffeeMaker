@@ -56,7 +56,6 @@ creams.bind('add', function(cream) {
 var sugarView = new SugarView({el: $('#coffeeStatus')});
 var creamView = new CreamView({el: $('#coffeeStatus')});
 
-/*
 setInterval( function(){
   sugars.fetch({success: function(){
     view.render();
@@ -65,4 +64,3 @@ setInterval( function(){
     view.render();
   }});
 }, 1000);
-*/
