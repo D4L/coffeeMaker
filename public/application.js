@@ -1,66 +1,46 @@
 var Sugar = Backbone.Model.extend({});
 var Cream = Backbone.Model.extend({});
 
-var SugarStore = Backbone.Collection.extend({
+var SugarList = Backbone.Collection.extend({
   model: Sugar,
     url: 'http://locaalhost:4567/sugars'
 });
 
-var sugars = new SugarStore;
-
-var CreamStore = Backbone.Collection.extend({
+var CreamList = Backbone.Collection.extend({
   model: Cream,
     url: 'http://localhost:4567/creams'
 });
 
-var creams = new CreamStore;
-
 var SugarView = Backbone.View.extend ({
-  events: {
-    "submit #addSream" : "addSreamHandler"
-  },
-
-  addSreamHandler: function(data) {
-    sugars.create({});
-  },
-
   render: function() {
-    $('#coffeeStatus').text(sugars.length + " sugars");
-    return this;
+    this.$el.html( "Hello" );
+  }
+});
+
+var SugarListView = Backbone.View.extend ({
+  initialize: function() {
+    this.collection.on('add', this.addOne, this);
+  },
+  events: {
+    "click #addSugar" : "addSugar"
+  },
+  render: function() {
+    this.collection.forEach( this.addOne, this );
+  },
+  addOne: function(sugar) {
+    var sugarView = new SugarView({model: sugar});
+    this.$el.append( sugarView.render().el );
+  },
+  addSugar: function() {
+    alert("Hello");
+    this.collection.add({});
   }
 });
 
 var CreamView = Backbone.View.extend({
-  events: {
-    "submit #addCream" : "addCreamHandler"
-  },
-
-  addCreamHandler: function(data) {
-    creams.create({});
-  },
-
-  render: function() {
-    $('#coffeeStatus').text(creams.length + " creams");
-    return this;
-  }
 });
 
-sugars.bind('add', function(sugar) {
-  sugars.fetch({success: function(){view.render();}});
-});
-
-creams.bind('add', function(cream) {
-  creams.fetch({success: function(){view.render();}});
-});
-
-var sugarView = new SugarView({el: $('#coffeeStatus')});
-var creamView = new CreamView({el: $('#coffeeStatus')});
-
-setInterval( function(){
-  sugars.fetch({success: function(){
-    view.render();
-  }});
-  creams.fetch({success: function(){
-    view.render();
-  }});
-}, 1000);
+var sugarList = new SugarList;
+var creamList = new CreamList;
+var sugarListView = new SugarListView({collection: sugarList});
+var creamListView = new CreamListView({collection: creamList});

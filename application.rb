@@ -11,7 +11,7 @@ end
 
 get '/sugars' do
   content_type :json
-  {:models => @@confections}.to_json
+  {:sugar => 2}.to_json
 end
 
 post '/sugars' do
@@ -21,7 +21,7 @@ end
 
 get '/creams' do
   content_type :json
-  {:models => @@confections}.to_json
+  {:sugar => 3}.to_json
 end
 
 post '/creams' do
