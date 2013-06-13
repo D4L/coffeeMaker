@@ -11,7 +11,8 @@ end
 
 get '/sugars' do
   content_type :json
-  {:sugar => 2}.to_json
+  logger.info "Hello"
+  {:models => [{:sugar => 2}]}.to_json
 end
 
 post '/sugars' do

@@ -1,46 +1,63 @@
-var Sugar = Backbone.Model.extend({});
-var Cream = Backbone.Model.extend({});
+$(function() {
 
-var SugarList = Backbone.Collection.extend({
-  model: Sugar,
-    url: 'http://locaalhost:4567/sugars'
-});
+  var Sugar = Backbone.Model.extend({});
+  var Cream = Backbone.Model.extend({});
 
-var CreamList = Backbone.Collection.extend({
-  model: Cream,
+  var SugarList = Backbone.Collection.extend({
+    model: Sugar,
+    url: 'http://localhost:4567/sugars'
+  });
+
+  var CreamList = Backbone.Collection.extend({
+    model: Cream,
     url: 'http://localhost:4567/creams'
-});
+  });
 
-var SugarView = Backbone.View.extend ({
-  render: function() {
-    this.$el.html( "Hello" );
-  }
-});
+  var Sugars = new SugarList;
+  var Creams = new CreamList;
 
-var SugarListView = Backbone.View.extend ({
-  initialize: function() {
-    this.collection.on('add', this.addOne, this);
-  },
-  events: {
-    "click #addSugar" : "addSugar"
-  },
-  render: function() {
-    this.collection.forEach( this.addOne, this );
-  },
-  addOne: function(sugar) {
-    var sugarView = new SugarView({model: sugar});
-    this.$el.append( sugarView.render().el );
-  },
-  addSugar: function() {
-    alert("Hello");
-    this.collection.add({});
-  }
-});
+  var SugarView = Backbone.View.extend ({
+    render: function() {
+      this.$el.html( this.model.toJSON() );
+      return this;
+    }
+  });
 
-var CreamView = Backbone.View.extend({
-});
+  var CreamView = Backbone.View.extend({
+  });
 
-var sugarList = new SugarList;
-var creamList = new CreamList;
-var sugarListView = new SugarListView({collection: sugarList});
-var creamListView = new CreamListView({collection: creamList});
+  var AppView = Backbone.View.extend({
+
+    el: $("body"),
+
+    initialize: function() {
+      this.listenTo(Sugars, 'all', this.render);
+
+      Sugars.fetch()
+      console.log(Sugars.models)
+    },
+
+    render: function() {
+      console.log("appview Render called");
+      var data = Sugars.map( this.addOne );
+      var result = data.reduce( function( a,b ) {return a + b}, '' );
+      $('#coffeeStatus').text(result);
+      return this;
+    },
+
+    addOne: function( sugar ) {
+      var view = new SugarView({model: sugar});
+      this.$('#coffeeStatus').append(view.render().el);
+      console.log("addOne called");
+    },
+
+    addAll: function() {
+      Sugars.each(this.addOne, this);
+      console.log("addAll called");
+    }
+
+  });
+
+  var App = new AppView;
+
+});
