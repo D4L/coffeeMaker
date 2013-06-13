@@ -1,4 +1,4 @@
-$(function() {
+$(document).ready(function() {
 
   var Sugar = Backbone.Model.extend({});
   var Cream = Backbone.Model.extend({});
@@ -18,7 +18,8 @@ $(function() {
 
   var SugarView = Backbone.View.extend ({
     render: function() {
-      this.$el.html( this.model.toJSON() );
+      console.log("SugarView render called");
+      this.$el.html( "Hello" );
       return this;
     }
   });
@@ -31,21 +32,34 @@ $(function() {
     el: $("body"),
 
     initialize: function() {
-      this.listenTo(Sugars, 'all', this.render);
-
-      Sugars.fetch()
-      console.log(Sugars.models)
+      this.result = "Hello World";
+      Sugars.fetch();
+      console.log(Sugars.toJSON());
     },
 
     render: function() {
       console.log("appview Render called");
-      var data = Sugars.map( this.addOne );
+      /*var data = Sugars.map( function(sugar){
+        console.log("inside map");
+        var view = new SugarView({model: sugar});
+        return view.render().el;
+      } );
+
+      console.log("appviewfinishmap");
       var result = data.reduce( function( a,b ) {return a + b}, '' );
-      $('#coffeeStatus').text(result);
+      console.log("appViewfinish reduce");
+      */
+     console.log("Outputting sugars");
+     Sugars.each( function(sugar) {
+       console.log(sugar);
+     } );
+      $('#coffeeStatus').html(this.result);
+      console.log("appview Render finishing");
       return this;
     },
 
     addOne: function( sugar ) {
+      console.log(sugar)
       var view = new SugarView({model: sugar});
       this.$('#coffeeStatus').append(view.render().el);
       console.log("addOne called");
@@ -59,5 +73,6 @@ $(function() {
   });
 
   var App = new AppView;
+  App.render();
 
 });

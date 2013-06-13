@@ -11,7 +11,6 @@ end
 
 get '/sugars' do
   content_type :json
-  logger.info "Hello"
   {:models => [{:sugar => 2}]}.to_json
 end
 
