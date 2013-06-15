@@ -3,34 +3,30 @@ require 'bundler'
 
 Bundler.require
 
-@@confections = [{:amount => 5}]
+confections = {:sugarAmount => 0, :creamAmount => 0}
 
 get '/' do
   File.read(File.join('public', 'index.html'))
 end
 
-get '/sugar' do
+get '/sugars' do
   content_type :json
-  @@confections.to_json
+  result = {:amount => confections[:sugarAmount]}
+  result.to_json
 end
 
-get '/sugar/:id' do
-  logger.info params[:id]
-  return @@confections.first.to_json
+post '/sugars' do
+  content_type :json
+  confections[:sugarAmount] += 1
 end
 
-post '/sugar' do
+get '/creams' do
   content_type :json
-  logger.info params
-  @@confections << { :sugar => 4}
+  result = {:amount => confections[:creamAmount]}
+  result.to_json
 end
 
-get '/cream' do
+post '/creams' do
   content_type :json
-  {:sugar => 3}.to_json
-end
-
-post '/cream' do
-  content_type :json
-  @@confections << :cream
+  confections[:creamAmount] += 1
 end
