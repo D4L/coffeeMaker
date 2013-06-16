@@ -40,6 +40,7 @@ $(document).ready(function() {
 
     initialize: function() {
                   this.listenTo( this.collection, 'add', this.render );
+                  this.listenTo( this.collection, 'sync', this.render );
                   this.collection.fetch();
                 },
 
@@ -61,7 +62,7 @@ $(document).ready(function() {
 
     initialize: function() {
                   this.listenTo( this.collection, 'add', this.render );
-
+                  this.listenTo( this.collection, 'sync', this.render );
                   this.collection.fetch();
                 },
 
