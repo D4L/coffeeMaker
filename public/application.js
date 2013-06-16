@@ -28,6 +28,9 @@ $(document).ready(function() {
                 }
   });
 
+  var sugars = new SugarList();
+  var creams = new CreamList();
+
   var SugarListView = Backbone.View.extend( {
     el:         $('#sugar'),
     events:     {
@@ -36,15 +39,16 @@ $(document).ready(function() {
     template:   _.template('<h3>Sugars: <%= length %></h3>'),
 
     initialize: function() {
-                  this.listenTo( this.model, 'all', this.render );
+                  this.listenTo( this.collection, 'add', this.render );
+                  this.collection.fetch();
                 },
 
     render:     function() {
-                  this.$el.find(".amount").html( this.template( this.model.toJSON() ) );
+                  this.$el.find(".amount").html( this.template( this.collection.toJSON() ) );
                   return this;
                 },
     add:        function() {
-                  this.model.addOne();
+                  this.collection.addOne();
                 }
   });
 
@@ -56,26 +60,22 @@ $(document).ready(function() {
     template:   _.template('<h3>Creams: <%= length %></h3>'),
 
     initialize: function() {
-                  this.listenTo( this.model, 'all', this.render );
+                  this.listenTo( this.collection, 'add', this.render );
+
+                  this.collection.fetch();
                 },
 
     render:     function() {
-                  this.$el.find(".amount").html( this.template( this.model.toJSON() ) );
+                  this.$el.find(".amount").html( this.template( this.collection.toJSON() ) );
                   return this;
                 },
 
     add:        function() {
-                  this.model.addOne();
+                  this.collection.addOne();
                 }
   });
 
-  var sugars = new SugarList();
-  var creams = new CreamList();
-
-  var sugarView = new SugarListView( { model: sugars } );
-  var creamView = new CreamListView( { model: creams } );
-
-  sugars.fetch();
-  creams.fetch();
+  var sugarView = new SugarListView( { collection: sugars } );
+  var creamView = new CreamListView( { collection: creams } );
 
 });
