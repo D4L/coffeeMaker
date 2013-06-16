@@ -1,35 +1,39 @@
 $(document).ready(function() {
 
   var Sugar = Backbone.Model.extend( {
-    urlRoot:    'http://localhost:4567/sugars',
     defaults:   {
                   amount: 0
-                },
-
-    addOne:     function() {
-                  this.save();
-                  this.fetch();
                 }
   });
 
   var Cream = Backbone.Model.extend( {
-    urlRoot:    'http://localhost:4567/creams',
     defaults:   {
                   amount: 0
                 },
+  });
 
+  var SugarList = Backbone.Collection.extend( {
+    model:      Sugar,
+    url:        "http://localhost:4567/sugars",
     addOne:     function() {
-                  this.save();
-                  this.fetch();
+                  this.create({});
                 }
   });
 
-  var SugarView = Backbone.View.extend( {
+  var CreamList = Backbone.Collection.extend( {
+    model:      Cream,
+    url:        "http://localhost:4567/creams",
+    addOne:     function() {
+                  this.create({});
+                }
+  });
+
+  var SugarListView = Backbone.View.extend( {
     el:         $('#sugar'),
     events:     {
                   "click .add" : "add"
                 },
-    template:   _.template('<h3>Sugars: <%= amount %></h3>'),
+    template:   _.template('<h3>Sugars: <%= length %></h3>'),
 
     initialize: function() {
                   this.listenTo( this.model, 'all', this.render );
@@ -44,12 +48,12 @@ $(document).ready(function() {
                 }
   });
 
-  var CreamView = Backbone.View.extend( {
+  var CreamListView = Backbone.View.extend( {
     el:         $("#cream"),
     events:     {
                   "click .add" : "add"
                 },
-    template:   _.template('<h3>Creams: <%= amount%></h3>'),
+    template:   _.template('<h3>Creams: <%= length %></h3>'),
 
     initialize: function() {
                   this.listenTo( this.model, 'all', this.render );
@@ -65,13 +69,13 @@ $(document).ready(function() {
                 }
   });
 
-  var sugar = new Sugar();
-  var cream = new Cream();
+  var sugars = new SugarList();
+  var creams = new CreamList();
 
-  var sugarView = new SugarView( { model: sugar } );
-  var creamView = new CreamView( { model: cream } );
+  var sugarView = new SugarListView( { model: sugars } );
+  var creamView = new CreamListView( { model: creams } );
 
-  sugar.fetch();
-  cream.fetch();
+  sugars.fetch();
+  creams.fetch();
 
 });
