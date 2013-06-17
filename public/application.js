@@ -31,8 +31,8 @@ $(document).ready(function() {
   var sugars = new SugarList();
   var creams = new CreamList();
 
-  var SugarListView = Backbone.View.extend( {
-    el:         $('#sugar'),
+  var SugarUIView = Backbone.View.extend( {
+    el:         $('#sugarUI'),
     events:     {
                   "click .add" : "add"
                 },
@@ -41,7 +41,6 @@ $(document).ready(function() {
     initialize: function() {
                   this.listenTo( this.collection, 'add', this.render );
                   this.listenTo( this.collection, 'sync', this.render );
-                  this.collection.fetch();
                 },
 
     render:     function() {
@@ -53,8 +52,8 @@ $(document).ready(function() {
                 }
   });
 
-  var CreamListView = Backbone.View.extend( {
-    el:         $("#cream"),
+  var CreamUIView = Backbone.View.extend( {
+    el:         $("#creamUI"),
     events:     {
                   "click .add" : "add"
                 },
@@ -63,7 +62,6 @@ $(document).ready(function() {
     initialize: function() {
                   this.listenTo( this.collection, 'add', this.render );
                   this.listenTo( this.collection, 'sync', this.render );
-                  this.collection.fetch();
                 },
 
     render:     function() {
@@ -76,7 +74,28 @@ $(document).ready(function() {
                 }
   });
 
-  var sugarView = new SugarListView( { collection: sugars } );
-  var creamView = new CreamListView( { collection: creams } );
+  var sugarUIView = new SugarUIView( { collection: sugars } );
+  var creamUIView = new CreamUIView( { collection: creams } );
+
+  var CreamCupView = Backbone.View.extend( {
+    el:         $("#cream"),
+
+    initialize: function() {
+                  this.listenTo( this.collection, 'add', this.render );
+                  this.listenTo( this.collection, 'sync', this.render );
+                },
+
+    render:     function() {
+                  var coffeeColor = 1 - 1/(this.collection.length + 1);
+                  this.$el.animate({
+                    opacity: coffeeColor
+                  }, 500);
+                }
+  });
+
+  var creamCupView = new CreamCupView( {collection: creams} );
+
+  sugars.fetch();
+  creams.fetch();
 
 });
