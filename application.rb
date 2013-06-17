@@ -9,7 +9,6 @@ creamAmount = []
 set :views, File.dirname(__FILE__) + "/public/views"
 
 get '/' do
-  # File.read(File.join('public', 'index.html'))
   haml :index
 end
 
