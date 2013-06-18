@@ -1,35 +1,32 @@
-require 'rubygems'
-require 'bundler'
+class CoffeeMaker < Sinatra::Base
 
-Bundler.require
+  sugarAmount = []
+  creamAmount = []
 
-sugarAmount = []
-creamAmount = []
+  get '/' do
+    haml :index
+  end
 
-set :views, File.dirname(__FILE__) + "/public/views"
+  get '/sugars' do
+    content_type :json
+    sugarAmount.to_json
+  end
 
-get '/' do
-  haml :index
-end
+  post '/sugars' do
+    content_type :json
+    sugarAmount << {}
+    200
+  end
 
-get '/sugars' do
-  content_type :json
-  sugarAmount.to_json
-end
+  get '/creams' do
+    content_type :json
+    creamAmount.to_json
+  end
 
-post '/sugars' do
-  content_type :json
-  sugarAmount << {}
-  200
-end
+  post '/creams' do
+    content_type :json
+    creamAmount << {}
+    200
+  end
 
-get '/creams' do
-  content_type :json
-  creamAmount.to_json
-end
-
-post '/creams' do
-  content_type :json
-  creamAmount << {}
-  200
 end

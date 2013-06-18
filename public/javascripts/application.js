@@ -14,7 +14,7 @@ $(document).ready(function() {
 
   var SugarList = Backbone.Collection.extend( {
     model:      Sugar,
-    url:        "http://localhost:4567/sugars",
+    url:        "http://localhost:9292/sugars",
     addOne:     function() {
                   this.create({});
                 }
@@ -22,7 +22,7 @@ $(document).ready(function() {
 
   var CreamList = Backbone.Collection.extend( {
     model:      Cream,
-    url:        "http://localhost:4567/creams",
+    url:        "http://localhost:9292/creams",
     addOne:     function() {
                   this.create({});
                 }
