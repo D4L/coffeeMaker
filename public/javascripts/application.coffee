@@ -61,11 +61,33 @@ $ ->
         opacity: coffeeColor
       , 500
 
+  class SugarCubeView extends Backbone.View
+    tagName: "div"
+    className: "sugarCube"
+
+    initialize: ->
+      @top = Math.floor( Math.random() * 250 )
+      @left = Math.floor( Math.random() * 100 )
+      $(@el).css
+        "top": @top
+        "left": @left
+
+  class SugarCubesView extends Backbone.View
+    el: $ "#coffee"
+
+    initialize: ->
+      @listenTo @collection, 'add', @addSugarCube
+
+    addSugarCube: (sugar) ->
+      sugarCubeView = new SugarCubeView model: sugar
+      $(@el).append( sugarCubeView.el )
+
   sugars = new SugarList()
   creams = new CreamList()
   sugarUIView = new SugarUIView collection: sugars
   creamUIView = new CreamUIView collection: creams
   creamCupView = new CreamCupView collection: creams
+  sugarCubesView = new SugarCubesView collection: sugars
 
   sugars.fetch()
   creams.fetch()
