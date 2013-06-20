@@ -29,6 +29,8 @@ $ ->
     initialize: ->
       @listenTo @collection, 'add', @render
 
+      @render()
+
     render: ->
       $(@el).find(".amount").html( @template( @collection.toJSON() ) )
     add: ->
@@ -42,6 +44,8 @@ $ ->
 
     initialize: ->
       @listenTo @collection, 'add', @render
+
+      @render()
 
     render: ->
       $(@el).find(".amount").html( @template( @collection.toJSON() ) )
