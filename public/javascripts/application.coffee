@@ -28,7 +28,7 @@ $ ->
 
     initialize: ->
       @listenTo @collection, 'add', @render
-      @listenTo @collection, 'sync', @render
+
     render: ->
       $(@el).find(".amount").html( @template( @collection.toJSON() ) )
     add: ->
@@ -42,7 +42,6 @@ $ ->
 
     initialize: ->
       @listenTo @collection, 'add', @render
-      @listenTo @collection, 'sync', @render
 
     render: ->
       $(@el).find(".amount").html( @template( @collection.toJSON() ) )
@@ -55,7 +54,6 @@ $ ->
 
     initialize: ->
       @listenTo @collection, 'add', @render
-      @listenTo @collection, 'sync', @render
 
     render: ->
       coffeeColor = 1 - 1/(@collection.length + 1)
