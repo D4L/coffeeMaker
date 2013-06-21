@@ -70,11 +70,29 @@ $ ->
     className: "sugarCube"
 
     initialize: ->
-      @top = Math.floor( Math.random() * 250 )
-      @left = Math.floor( Math.random() * 100 )
+      @top        = Math.floor( Math.random() * 250 )
+      @left       = Math.floor( Math.random() * 100 )
+      @move()
+      # get the directional vector the sugar cube will travel
+      direction   = Math.random() * Math.PI * 2
+      @dx         = Math.cos direction
+      @dy         = Math.sin direction
+      setInterval(@animate, 50)
+
+    animate: =>
+      @left   += @dx
+      @top    += @dy
+      # Edge cases if the sugar hits the edge
+      # TODO: non-hardcode the edge
+      @dx     *= -1   if  @left <= 0 || @left >= 100
+      @dy     *= -1   if   @top <= 0 || @top >= 250
+      @move()
+
+    move: ->
       $(@el).css
         "top": @top
         "left": @left
+
 
   class SugarCubesView extends Backbone.View
     el: $ "#coffee"
@@ -86,12 +104,12 @@ $ ->
       sugarCubeView = new SugarCubeView model: sugar
       $(@el).append( sugarCubeView.el )
 
-  sugars = new SugarList()
-  creams = new CreamList()
-  sugarUIView = new SugarUIView collection: sugars
-  creamUIView = new CreamUIView collection: creams
-  creamCupView = new CreamCupView collection: creams
-  sugarCubesView = new SugarCubesView collection: sugars
+  sugars          = new SugarList()
+  creams          = new CreamList()
+  sugarUIView     = new SugarUIView collection: sugars
+  creamUIView     = new CreamUIView collection: creams
+  creamCupView    = new CreamCupView collection: creams
+  sugarCubesView  = new SugarCubesView collection: sugars
 
   sugars.fetch()
   creams.fetch()
