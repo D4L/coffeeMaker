@@ -100,12 +100,21 @@ $ ->
       sugarCubeView = new SugarCubeView model: sugar
       $(@el).append( sugarCubeView.el )
 
+  class CupUIView extends Backbone.View
+    el: $ "#cupUI"
+    events:
+      "click #stirUI" : "stir"
+
+    stir: ->
+      console.log("stirred")
+
   sugars          = new SugarList()
   creams          = new CreamList()
   sugarUIView     = new SugarUIView collection: sugars
   creamUIView     = new CreamUIView collection: creams
   creamCupView    = new CreamCupView collection: creams
   sugarCubesView  = new SugarCubesView collection: sugars
+  cupUIView       = new CupUIView()
 
   sugars.fetch()
   creams.fetch()
