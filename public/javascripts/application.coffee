@@ -1,12 +1,8 @@
 $ ->
 
   class Sugar extends Backbone.Model
-    defaults:
-      amount: 0
 
   class Cream extends Backbone.Model
-    defaults:
-      amount: 0
 
   class SugarList extends Backbone.Collection
     model: Sugar
