@@ -23,10 +23,21 @@ class CoffeeMaker < Sinatra::Base
     creamAmount.to_json
   end
 
+  get '/creams/:id' do
+    content_type :json
+    creamAmount.first
+  end
+
   post '/creams' do
     content_type :json
-    creamAmount << {}
+    creamAmount << {dissolved: false, id: creamAmount.size + 1}
     200
+  end
+
+  put '/creams/:id' do
+    params = JSON.parse(request.body.read)
+    p params
+    202
   end
 
 end

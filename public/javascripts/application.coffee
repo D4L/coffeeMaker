@@ -3,6 +3,8 @@ $ ->
   class Sugar extends Backbone.Model
 
   class Cream extends Backbone.Model
+    stir: ->
+      @save( { dissolved: true } )
 
   class SugarList extends Backbone.Collection
     model: Sugar
@@ -15,6 +17,9 @@ $ ->
     url: "http://localhost:9292/creams"
     addOne: ->
       @create()
+    stir: ->
+      @each ( cream ) ->
+        cream.stir()
 
   class SugarUIView extends Backbone.View
     el: $ '#sugarUI'
@@ -106,10 +111,10 @@ $ ->
       "click #stirUI" : "stir"
 
     stir: ->
-      console.log("stirred")
+      window.creams.stir()
 
   sugars          = new SugarList()
-  creams          = new CreamList()
+  window.creams   = new CreamList()
   sugarUIView     = new SugarUIView collection: sugars
   creamUIView     = new CreamUIView collection: creams
   creamCupView    = new CreamCupView collection: creams
