@@ -30,8 +30,9 @@ class CoffeeMaker < Sinatra::Base
 
   post '/creams' do
     content_type :json
-    creamAmount << {dissolved: false, id: creamAmount.size + 1}
-    200
+    newCream = {dissolved: false, id: creamAmount.size + 1}
+    creamAmount << newCream
+    [ 201, newCream.to_json ]
   end
 
   put '/creams/:id' do

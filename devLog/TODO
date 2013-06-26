@@ -1,2 +1,2 @@
-need to get id from server after post inside coffeescript
 need to add animation to creams after stir
+need to only update the un-stirred when clicking dissolve. Test by looking at requests
