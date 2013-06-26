@@ -35,8 +35,10 @@ class CoffeeMaker < Sinatra::Base
   end
 
   put '/creams/:id' do
-    params = JSON.parse(request.body.read)
-    p params
+    params  = JSON.parse(request.body.read).
+      inject({}){|newParams, (k,v)| newParams[k.to_sym] = v; newParams}
+    creamId = params.delete(:id) - 1
+    creamAmount[creamId].update( params )
     202
   end
 
