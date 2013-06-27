@@ -18,7 +18,7 @@ $ ->
     addOne: ->
       @create()
     stir: ->
-      @each ( cream ) ->
+      @where( {dissolved: false} ).forEach ( cream ) ->
         cream.stir()
 
   class SugarUIView extends Backbone.View
