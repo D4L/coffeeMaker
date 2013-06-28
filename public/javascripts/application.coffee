@@ -3,6 +3,8 @@ $ ->
   class Sugar extends Backbone.Model
 
   class Cream extends Backbone.Model
+    defaults:
+      dissolved: false
     stir: ->
       @save( { dissolved: true } )
 
