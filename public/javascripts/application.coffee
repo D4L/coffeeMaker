@@ -60,13 +60,28 @@ $ ->
     el: $ "#cream"
 
     initialize: ->
-      @listenTo @collection, 'add', @render
+      @listenTo @collection, 'add', @addCream
 
-    render: ->
-      coffeeColor = 1 - 1/(@collection.length + 1)
-      $(@el).animate
-        opacity: coffeeColor
-      , 500
+    addCream: ( cream ) ->
+      if cream.get("dissolved")
+        numDissolved = @collection.where({dissolved: true}).length
+        coffeeColor = 1 - 1/(numDissolved + 1)
+        $(@el).animate
+          opacity: coffeeColor
+        , 500
+
+  class UnstirredCreamCupView extends Backbone.View
+    el: $ "#unstirred-cream"
+
+    initialize: ->
+      @listenTo @collection, 'add', @addCream
+
+    addCream: ( cream ) ->
+      if !cream.get("dissolved")
+        numUndissolved = @collection.where({dissolved: false}).length
+        $(@el).animate
+          height: numUndissolved * 20
+        , 500
 
   class SugarCubeView extends Backbone.View
     tagName: "div"
@@ -115,13 +130,14 @@ $ ->
     stir: ->
       window.creams.stir()
 
-  sugars          = new SugarList()
-  window.creams   = new CreamList()
-  sugarUIView     = new SugarUIView collection: sugars
-  creamUIView     = new CreamUIView collection: creams
-  creamCupView    = new CreamCupView collection: creams
-  sugarCubesView  = new SugarCubesView collection: sugars
-  cupUIView       = new CupUIView()
+  sugars                  = new SugarList()
+  window.creams           = new CreamList()
+  sugarUIView             = new SugarUIView collection: sugars
+  creamUIView             = new CreamUIView collection: creams
+  creamCupView            = new CreamCupView collection: creams
+  unstirredCreamCupView   = new UnstirredCreamCupView collection: creams
+  sugarCubesView          = new SugarCubesView collection: sugars
+  cupUIView               = new CupUIView()
 
   sugars.fetch()
   creams.fetch()
