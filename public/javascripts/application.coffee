@@ -22,6 +22,7 @@ $ ->
     stir: ->
       @where( {dissolved: false} ).forEach ( cream ) ->
         cream.stir()
+      @trigger('stirred')
 
   class SugarUIView extends Backbone.View
     el: $ '#sugarUI'
@@ -61,27 +62,36 @@ $ ->
 
     initialize: ->
       @listenTo @collection, 'add', @addCream
+      @listenTo @collection, 'stirred', @refreshStirredCream
 
     addCream: ( cream ) ->
       if cream.get("dissolved")
-        numDissolved = @collection.where({dissolved: true}).length
-        coffeeColor = 1 - 1/(numDissolved + 1)
-        $(@el).animate
-          opacity: coffeeColor
-        , 500
+        @refreshStirredCream()
+
+    refreshStirredCream: ->
+      numDissolved = @collection.where({dissolved: true}).length
+      coffeeColor = 1 - 1/(numDissolved + 1)
+      $(@el).animate
+        opacity: coffeeColor
+      , 500
 
   class UnstirredCreamCupView extends Backbone.View
     el: $ "#unstirred-cream"
 
     initialize: ->
       @listenTo @collection, 'add', @addCream
+      @listenTo @collection, 'stirred', @refreshUnstirredCream
 
     addCream: ( cream ) ->
       if !cream.get("dissolved")
+        @refreshUnstirredCream()
+
+    refreshUnstirredCream: ->
         numUndissolved = @collection.where({dissolved: false}).length
         $(@el).animate
           height: numUndissolved * 20
         , 500
+
 
   class SugarCubeView extends Backbone.View
     tagName: "div"
