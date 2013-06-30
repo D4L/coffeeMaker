@@ -20,12 +20,16 @@ $ ->
     addOne: ->
       @create()
     stir: ->
-      @where( {dissolved: false} ).forEach ( cream ) ->
+      @unstirred().forEach ( cream ) ->
         cream.stir()
       @trigger('stirred')
+    stirred: ->
+      @where( {dissolved: true} )
+    unstirred: ->
+      @where( {dissolved: false} )
 
-  class SugarUIView extends Backbone.View
-    el: $ '#sugarUI'
+  class SugarControlsView extends Backbone.View
+    el: $ '#sugarControls'
     events:
       "click .add" : "add"
     template: _.template '<h3>Sugars: <%= length %></h3>'
@@ -40,8 +44,8 @@ $ ->
     add: ->
       @collection.addOne()
 
-  class CreamUIView extends Backbone.View
-    el: $ "#creamUI"
+  class CreamControlsView extends Backbone.View
+    el: $ "#creamControls"
     events:
       "click .add" : "add"
     template: _.template '<h3>Creams: <%= length %></h3>'
@@ -69,7 +73,7 @@ $ ->
         @refreshStirredCream()
 
     refreshStirredCream: ->
-      numDissolved = @collection.where({dissolved: true}).length
+      numDissolved = @collection.stirred().length
       coffeeColor = 1 - 1/(numDissolved + 1)
       $(@el).animate
         opacity: coffeeColor
@@ -87,7 +91,7 @@ $ ->
         @refreshUnstirredCream()
 
     refreshUnstirredCream: ->
-        numUndissolved = @collection.where({dissolved: false}).length
+        numUndissolved = @collection.unstirred().length
         $(@el).animate
           height: numUndissolved * 20
         , 500
@@ -117,9 +121,10 @@ $ ->
       @move()
 
     move: ->
-      $(@el).css
+      $(@el).animate
         "top": @top
         "left": @left
+      , 50
 
 
   class SugarCubesView extends Backbone.View
@@ -132,22 +137,22 @@ $ ->
       sugarCubeView = new SugarCubeView model: sugar
       $(@el).append( sugarCubeView.el )
 
-  class CupUIView extends Backbone.View
-    el: $ "#cupUI"
+  class CupControlsView extends Backbone.View
+    el: $ "#cupControls"
     events:
-      "click #stirUI" : "stir"
+      "click #stir" : "stir"
 
     stir: ->
-      window.creams.stir()
+      creams.stir()
 
   sugars                  = new SugarList()
-  window.creams           = new CreamList()
-  sugarUIView             = new SugarUIView collection: sugars
-  creamUIView             = new CreamUIView collection: creams
+  creams           = new CreamList()
+  sugarControlsView       = new SugarControlsView collection: sugars
+  creamControlsView       = new CreamControlsView collection: creams
   creamCupView            = new CreamCupView collection: creams
   unstirredCreamCupView   = new UnstirredCreamCupView collection: creams
   sugarCubesView          = new SugarCubesView collection: sugars
-  cupUIView               = new CupUIView()
+  cupControlsView         = new CupControlsView()
 
   sugars.fetch()
   creams.fetch()
