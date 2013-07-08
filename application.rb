@@ -7,6 +7,10 @@ class CoffeeMaker < Sinatra::Base
     haml :index
   end
 
+  get '/about' do
+    haml :about
+  end
+
   get '/sugars' do
     content_type :json
     sugarAmount.to_json
