@@ -1,0 +1,15 @@
+!!! 5
+%html
+  %head
+    %title
+      CoffeeMaker
+    %script{ :src => "javascripts/underscore.js" }
+    %script{ :src => "javascripts/jquery.js" }
+    %script{ :src => "javascripts/backbone.js" }
+    %script{ :src => "javascripts/application.js" }
+    %link{ :rel => "stylesheet", :href => "stylesheets/main.css" }
+
+  %body
+    #container
+      = yield
+
