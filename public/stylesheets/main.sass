@@ -1,20 +1,29 @@
+@font-face
+  font-family:            chapleau
+  src:                    url(../fonts/Chapleau.ttf)
+
 *
   margin:                 0
   padding:                0
   position:               relative
+  font-family:            chapleau
+  letter-spacing:         2px
+  color:                  #2a2a2a
+
+body
+  background:             rgb(236, 236, 236)
 
 #container
   margin:                 auto
   width:                  960px
 
 #header
-  background:             rgb( 66, 170, 66 )
-  padding:                0 0 0 20px
-  height:                 75px
+  background:             rgb( 42, 132, 22 )
+  padding:                0 0 0 50px
+  height:                 125px
 
   #header-title
-    height:               75px
-    font-size:            70px
+    font-size:            100px
     display:              inline-block
 
   #nav
@@ -24,11 +33,16 @@
 
     .nav-item
       display:            inline-block
-      margin:             0 50px 0 0
+      margin:             0 20px 0 0
+      padding:            0 5px 0 5px
+      border-bottom:    thin dashed #2a2a2a
 
       a
         text-decoration:  none
         color:            black
+
+      &:hover
+        border-bottom:  thin solid #2a2a2a
 
 
 #coffeeCup
