@@ -8,13 +8,13 @@ class Cream extends Backbone.Model
 
 class SugarList extends Backbone.Collection
   model: Sugar
-  url: "http://localhost:9292/sugars"
+  url: "http://coffee-maker.herokuapp.com/sugars"
   addOne: ->
     @create()
 
 class CreamList extends Backbone.Collection
   model: Cream
-  url: "http://localhost:9292/creams"
+  url: "http://coffee-maker.herokuapp.com/creams"
   addOne: ->
     @create()
   stir: ->
